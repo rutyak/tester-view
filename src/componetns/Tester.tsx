@@ -1,31 +1,41 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Tester.css'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { videoSurvey } from '../Redux/videoSlice'
+import { imageSurvey } from '../Redux/imageSlice'
+import { formSurvey } from '../Redux/formSlice'
 
 const Tester = () => {
   
-  const [data, setData] = useState<any>();
+  const [video, setVideo] = useState<any>();
   const [form,setForm] = useState<any>();
   const [image,setImage] = useState<any>();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(()=>{
    ( async function fetchData(){
       const res = await axios.get('http://localhost:5000/videoData');
-      console.log(res.data.data)
-      setData(res.data.data)
+      setVideo(res.data.data)
+      dispatch(videoSurvey(res.data.data));
 
       const res2 = await axios.get('http://localhost:5000/imageData');
-      console.log(res2.data.data)
       setImage(res2.data.data)
+      dispatch(imageSurvey(res2.data.data));
 
       const res3 = await axios.get('http://localhost:5000/formData');
-      console.log(res3.data.data)
       setForm(res3.data.data)
+      dispatch(formSurvey(res3.data.data));
     })()
   },[])
-  console.log("useState",data);
-  // console.log("dataOfData", data);
 
+  // console.log("vInfo",video);
+  // console.log("iInfo",image);
+  // console.log("fInfo",form);
+
+  
   return (
     <div className='tester-container'>
       <div className="title">
@@ -33,8 +43,8 @@ const Tester = () => {
       </div>
       <div className="survey-container">
         {
-          data?.map((ele: any, i: number)=>(
-            <div className="survey-block">
+          video?.map((ele: any, i: number)=>(
+            <div className="survey-block" onClick={()=>navigate('/video')}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#d4b0b0"}}>{ele.type}</p>
@@ -47,7 +57,7 @@ const Tester = () => {
         }
         {
           image?.map((ele: any, i: number)=>(
-            <div className="survey-block">
+            <div className="survey-block" onClick={()=>navigate('/image')}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background: "#e55b5b"}}>{ele.type}</p>
@@ -60,7 +70,7 @@ const Tester = () => {
         }
         {
           form?.map((ele: any, i: number)=>(
-            <div className="survey-block">
+            <div className="survey-block" onClick={()=>navigate('/form')}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#755fb7"}}>{ele.type}</p>
