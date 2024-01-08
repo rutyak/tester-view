@@ -3,37 +3,37 @@ import { useNavigate } from 'react-router-dom'
 import './Tester.css'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { videoSurvey } from '../Redux/videoSlice'
-import { imageSurvey } from '../Redux/imageSlice'
-import { formSurvey } from '../Redux/formSlice'
+import { clearSurvey, videoSurvey } from '../Redux/videoSlice'
+import { clearImageSurvey, imageSurvey } from '../Redux/imageSlice'
+import { clearFormSurvey, formSurvey } from '../Redux/formSlice'
+import { useSelector } from 'react-redux'
+
 
 const Tester = () => {
   
+  // const {video, form, image} = useSelector((state: any)=>{
+  //   return {
+  //     video : state.video.videoInfo[0],
+  //     form: state.form.formInfo[0],
+  //     image : state.image.imageInfo[0]
+  //   }
+  // })
+
   const [video, setVideo] = useState<any>();
-  const [form,setForm] = useState<any>();
-  const [image,setImage] = useState<any>();
+  const [image, setImage] = useState<any>();
+  const [form, setForm] = useState<any>();
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  useEffect(()=>{
-   ( async function fetchData(){
-      const res = await axios.get('http://localhost:5000/videoData');
-      setVideo(res.data.data)
-      dispatch(videoSurvey(res.data.data));
-
-      const res2 = await axios.get('http://localhost:5000/imageData');
-      setImage(res2.data.data)
-      dispatch(imageSurvey(res2.data.data));
-
-      const res3 = await axios.get('http://localhost:5000/formData');
-      setForm(res3.data.data)
-      dispatch(formSurvey(res3.data.data));
-    })()
+  useEffect( ()=>{
+     axios.get('http://localhost:5000/videoData').then(response => setVideo(response.data.data))
+     axios.get('http://localhost:5000/imageData').then((response)=> setImage(response.data.data))
+     axios.get('http://localhost:5000/formData').then((response) => setForm(response.data.data))
   },[])
 
-  // console.log("vInfo",video);
-  // console.log("iInfo",image);
-  // console.log("fInfo",form);
+  console.log("vInfo",video);
+  console.log("iInfo",image);
+  console.log("fInfo",form);
 
   
   return (
@@ -44,7 +44,7 @@ const Tester = () => {
       <div className="survey-container">
         {
           video?.map((ele: any, i: number)=>(
-            <div className="survey-block" onClick={()=>navigate('/video')}>
+            <div className="survey-block" onClick={()=>navigate(`/video/${ele.title}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#d4b0b0"}}>{ele.type}</p>
@@ -57,7 +57,7 @@ const Tester = () => {
         }
         {
           image?.map((ele: any, i: number)=>(
-            <div className="survey-block" onClick={()=>navigate('/image')}>
+            <div className="survey-block" onClick={()=>navigate(`/image/${ele.title}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background: "#e55b5b"}}>{ele.type}</p>
@@ -70,7 +70,7 @@ const Tester = () => {
         }
         {
           form?.map((ele: any, i: number)=>(
-            <div className="survey-block" onClick={()=>navigate('/form')}>
+            <div className="survey-block" onClick={()=>navigate(`/form/${ele.title}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#755fb7"}}>{ele.type}</p>

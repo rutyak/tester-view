@@ -5,15 +5,16 @@ import Video from './componetns/Video/Video';
 import Image from './componetns/Image/Image';
 import './App.css';
 
+
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
          <Routes>
             <Route path='/' element={<Tester/>}/>
-            <Route path='/video' element={<Video/>}/>
-            <Route path='/image' element={<Image/>}/>
-            <Route path='/form' element={<Form/>}/>
+            <Route path='/video/:videoId' element={<Video/>}/>
+            <Route path='/image/:imageId' element={<Image/>}/>
+            <Route path='/form/:formId' element={<Form/>}/>
          </Routes>
       </BrowserRouter>
     </div>

@@ -15,9 +15,12 @@ const iSurvey = createSlice({
     reducers: {
         imageSurvey: (state: any, action: PayloadAction<any>)=>{
             state.imageInfo.push(action.payload)
+        },
+        clearImageSurvey: (state: any)=>{
+            state.imageInfo= []
         } 
     }
 })
 
-export const {imageSurvey} = iSurvey.actions;
+export const {imageSurvey, clearImageSurvey} = iSurvey.actions;
 export default iSurvey.reducer;

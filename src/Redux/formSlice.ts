@@ -15,9 +15,12 @@ const fSurvey = createSlice({
     reducers: {
         formSurvey: (state: any, action: PayloadAction<any>)=>{
             state.formInfo.push(action.payload)
+        },
+        clearFormSurvey: (state: any)=>{
+            state.formInfo= []
         } 
     }
 })
 
-export const {formSurvey} = fSurvey.actions;
+export const {formSurvey, clearFormSurvey} = fSurvey.actions;
 export default fSurvey.reducer;

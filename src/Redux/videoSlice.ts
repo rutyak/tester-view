@@ -14,7 +14,10 @@ const vSlice = createSlice({
     initialState,
     reducers:{ // reducer
         videoSurvey:(state:any, action: PayloadAction<any>)=>{ //action
-            state.videoInfo.push(action.payload)
+            if( ! state.videoInfo.includes(action.payload)){
+
+                state.videoInfo.push(action.payload)
+            }
         },
         clearSurvey:(state: any)=>{
             state.videoInfo = []
