@@ -11,14 +11,6 @@ import { useSelector } from 'react-redux'
 
 const Tester = () => {
   
-  // const {video, form, image} = useSelector((state: any)=>{
-  //   return {
-  //     video : state.video.videoInfo[0],
-  //     form: state.form.formInfo[0],
-  //     image : state.image.imageInfo[0]
-  //   }
-  // })
-
   const [video, setVideo] = useState<any>();
   const [image, setImage] = useState<any>();
   const [form, setForm] = useState<any>();
@@ -44,7 +36,8 @@ const Tester = () => {
       <div className="survey-container">
         {
           video?.map((ele: any, i: number)=>(
-            <div className="survey-block" onClick={()=>navigate(`/video/${ele.title}`)}>
+            ele.stage === 'published'? (
+              <div className="survey-block" onClick={()=>navigate(`/video/${ele.title}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#d4b0b0"}}>{ele.type}</p>
@@ -53,11 +46,13 @@ const Tester = () => {
                 <p>Description: {ele.desc}</p>
               </div>
             </div>
+            ): ''
           ))
         }
         {
           image?.map((ele: any, i: number)=>(
-            <div className="survey-block" onClick={()=>navigate(`/image/${ele.title}`)}>
+            ele.stage === 'published'? (
+              <div className="survey-block" onClick={()=>navigate(`/image/${ele.title}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background: "#e55b5b"}}>{ele.type}</p>
@@ -66,11 +61,13 @@ const Tester = () => {
                 <p>Description: {ele.desc}</p>
               </div>
             </div>
+            ): ''
           ))
         }
         {
           form?.map((ele: any, i: number)=>(
-            <div className="survey-block" onClick={()=>navigate(`/form/${ele.title}`)}>
+            ele.stage === 'published'? (
+              <div className="survey-block" onClick={()=>navigate(`/form/${ele.title}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#755fb7"}}>{ele.type}</p>
@@ -79,6 +76,7 @@ const Tester = () => {
                 <p>Description: {ele.desc}</p>
               </div>
             </div>
+            ): ''
           ))
         }
       </div>

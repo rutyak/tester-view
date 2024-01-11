@@ -14,15 +14,12 @@ const Video = () => {
 
   const [video, setVideo] = useState<any>();
 
-  // const video = useSelector((state: any) => state.video.videoInfo[0]);
   
   useEffect(()=>{
     axios.get('http://localhost:5000/videoData').then(response => setVideo(response.data.data))
   },[])
 
   console.log("videoData", video)
-  console.log("videoUrl", video.url)
-  console.log("videoType",video.videoType)
 
   return (
     <div className='image-video-container'>
@@ -37,7 +34,7 @@ const Video = () => {
               <div className="video-section">
                 <div className='video-part'>
                   <video width="380px" height="220px" controls>
-                    <source src={`http://localhost:8080/${ele.url}`} type={`video/${ele.videoType}`} />
+                    <source src={ele.url} type={`video/${ele.videoType}`} />
                   </video>
                 </div>
                 <div className='input-part'>
@@ -65,8 +62,6 @@ const Video = () => {
               </div>
               </div>
           }
-       
-
         })
       }
     </div>
