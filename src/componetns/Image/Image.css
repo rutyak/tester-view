@@ -19,12 +19,12 @@
 }
 
 .img-section{
-    height: 100%;
+    height: 46%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5rem;
+    margin-top: 6rem;
 }
 
 .image-video-container{
@@ -54,4 +54,12 @@
 
 .img-section img{
     margin-left: 4rem;
+}
+
+
+.img-flex{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

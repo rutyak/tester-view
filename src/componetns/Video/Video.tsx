@@ -1,10 +1,10 @@
 import '../Image/Image.css'
 import './Video.css'
 import Common from '../Common/Common'
-import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+const BaseUrl = 'http://localhost:5000'
 
 const Video = () => {
 
@@ -12,11 +12,20 @@ const Video = () => {
   const id = param.videoId;
   console.log("Video id: ", id);
 
-  const [video, setVideo] = useState<any>();
+  type videoType={
+    desc: string,
+    title: string,
+    type: string,
+    videoType: string,
+    videoUrl: string,
+    _id: string,
+    stage: string,
+  }
+  const [video, setVideo] = useState<videoType[]>();
 
   
   useEffect(()=>{
-    axios.get('http://localhost:5000/videoData').then(response => setVideo(response.data.data))
+    axios.get(`${BaseUrl}/videoData`).then(response => setVideo(response.data.data))
   },[])
 
   console.log("videoData", video)
@@ -24,8 +33,8 @@ const Video = () => {
   return (
     <div className='image-video-container'>
       {
-        video?.map((ele: any, i: number) => {
-          if (id === ele.title) {
+        video?.map((video: videoType, i: number) => {
+          if (id === video.title) {
             return <div className='video-container' key={i}>
               <Common />
               <div className="noti">
@@ -34,7 +43,7 @@ const Video = () => {
               <div className="video-section">
                 <div className='video-part'>
                   <video width="380px" height="220px" controls>
-                    <source src={ele.url} type={`video/${ele.videoType}`} />
+                    <source src={video.videoUrl} type={`video/${video.videoType}`} />
                   </video>
                 </div>
                 <div className='input-part'>
