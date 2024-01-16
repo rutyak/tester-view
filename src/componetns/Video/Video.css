@@ -44,3 +44,32 @@
 /* .submit-video-btn{
     width: 24.5%;
 } */
+
+@media screen and (max-width: 991px) {
+    .input-part {
+        width: 38.5%;
+    }
+
+    .video-section{
+        margin-top: 2rem;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .input-part {
+        width: 48.5%;
+    }
+
+    .video-section{
+        margin-top: 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .input-part {
+        width: 77.5%;
+    }
+    .video-section{
+        margin-top: 2rem;
+    }
+}

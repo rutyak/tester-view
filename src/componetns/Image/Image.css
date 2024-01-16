@@ -63,3 +63,20 @@
     justify-content: center;
     align-items: center;
 }
+
+.select{
+    border: 6px solid red;
+}
+
+@media screen and (max-width: 780px) {
+    .img-section img {
+        width: 6rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .img-section img {
+        width: 4rem;
+        margin-left: 2.5rem;
+    }
+}

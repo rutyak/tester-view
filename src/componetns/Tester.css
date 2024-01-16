@@ -47,3 +47,24 @@
 ::-webkit-scrollbar{
     display: none;
 }
+
+@media screen and (max-width: 991px) {
+    .survey-container {
+        gap: 6.5rem;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .survey-container{
+        gap: 4.7rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .survey-container {
+        gap: 4.1rem ;
+    }
+    .survey-block {
+        width: 40%;
+    }
+}

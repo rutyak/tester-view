@@ -4,6 +4,7 @@ import Form from './componetns/Form/Form'
 import Video from './componetns/Video/Video';
 import Image from './componetns/Image/Image';
 import './App.css';
+import Thankyou from './componetns/Common/Thankyou';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path='/video/:videoId' element={<Video/>}/>
             <Route path='/image/:imageId' element={<Image/>}/>
             <Route path='/form/:formId' element={<Form/>}/>
+            <Route path='/thanks' element={<Thankyou/>}/>
          </Routes>
       </BrowserRouter>
     </div>

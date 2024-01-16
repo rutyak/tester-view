@@ -1,5 +1,6 @@
 import arrow from '../../Asset/left-arrow (1).png'
 import { useNavigate } from 'react-router-dom'
+import './Common.css'
 
 const Common = () => {
 
