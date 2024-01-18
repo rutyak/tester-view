@@ -8,6 +8,17 @@
     gap: 1.5rem;
 }
 
+.vName{
+    width: 24%;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    position: absolute;
+    margin-top: 7rem;
+    margin-bottom: 2rem;
+    margin-left: 38%;
+    background: bisque;
+}
+
 .video-container{
     width: 100%;
     height: 100%;

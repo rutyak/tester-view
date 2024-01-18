@@ -11,6 +11,8 @@ const Image = () => {
   const param = useParams();
   const imageId = param.imageId;
   const navigate = useNavigate();
+  const [name, setName] = useState<String>('');
+  
   type imgType ={
     img1: string,
     img2: string
@@ -50,23 +52,30 @@ const Image = () => {
   console.log("ImageData: ",image);
   console.log("Answer: ",ans);
 
-  function handleImgSubmit(id: string){
- 
-    console.log("id: ",id)
-    axios.put(`${BaseUrl}/updateImage/${id}`,{answer:ans}).then(res =>{
-         if(res.status === 200){
-          toast.success("Submit Successfully!")
-          setTimeout(()=>{
-            navigate('/thanks');
-          },2000)
+  async function handleImgSubmit(title: string) {
+      
+    const postImage = {
+      name,
+      title,
+      answer: ans
+    };
+    console.log(postImage);
+
+      try {
+         const res = await axios.post(`${BaseUrl}/imageAns`,postImage);
+         if(res.status===200){
+          toast.success('Response recorded successfully !!')
+          console.log(res.data);
          }
-        })
-  } 
-   
+      } catch (error) {
+        console.log(error);
+      }
+  }
   
 
   return (
     <div className='image-video-container'>
+      <input type="text" placeholder='Enter your name' className='vName' onChange={(e)=>setName(e.target.value)}/>
       {
         image?.map((img: imageType, i: number) => {
           if (imageId === img.title) {
@@ -85,7 +94,7 @@ const Image = () => {
                 }
                 </div>
               <div className='btn-images'>
-                  <button className='img-submit' onClick={()=>handleImgSubmit(img._id)}>Submit</button>
+                  <button className='img-submit' onClick={()=>handleImgSubmit(img.title)}>Submit</button>
               </div>
               </div>
             </div>

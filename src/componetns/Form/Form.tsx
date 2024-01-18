@@ -1,44 +1,61 @@
 import '../Image/Image.css'
 import './Form.css'
 import Common from '../Common/Common'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { set } from 'mongoose'
 const BaseUrl = 'http://localhost:5000'
+let i=0;
 
 const Form = () => {
 
+  // let arrayAns = useRef<any>([]);
   const param = useParams();
   const id = param.formId;
   const navigate = useNavigate();
 
+  const [name, setName] = useState<string>('');
+
   type ansType = {
     que: string,
     ans: any
-  }
-
+  } 
   const [answer, setAnswer] = useState<ansType[]>([
-    { que: '', ans: ''}
+    { que: '', ans: null}
   ]);
-
+  
   type answerType = {
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
     quef: string,
-    ansf: string
+    ansf: string,
+    // checkIndex : number
   }
 
-  function handleAnswer({ e, index, quef, ansf }: answerType) {
+  function handleAnswer({ e, index, quef, ansf}: answerType) {
 
-    setAnswer((answer): ansType[] => {
-      const copy = [...answer]; // copy
-      copy[index] = { que: quef, ans: ansf }
-      console.log("copy", copy);
-      return copy; 
-    });
+    const _answer = [...answer];
+    console.log("answer:",_answer[index])
+    if(e.target.type === 'checkbox'){
+      if(e.target.checked){
+        if(!_answer[index]){
+          _answer[index]= { que : quef , ans : [ansf]} 
+        }
+        else{
+          _answer[index]= { que : quef , ans : [..._answer[index].ans, ansf]} 
+        }
+      }else{
+        _answer[index]= {que : quef , ans : _answer[index].ans?.filter((single : any)=> single !== ansf)}
+      }
+    }
+
+    else{
+      _answer[index] = { que: quef, ans: ansf }
+    }
+    setAnswer([..._answer])
   }
-  console.log("Answer: ", answer);
 
   type questionType = {
     options: string[],
@@ -59,20 +76,33 @@ const Form = () => {
   useEffect(() => {
     axios.get(`${BaseUrl}/formData`).then(response => setForm(response.data.data))
   }, [])
+  
+  console.log("answer", answer);
+  console.log("formData", form);
 
-  console.log("gettingForm", form);
 
-  function handleFormSubmit(id: string) {
-    console.log("id: ", id)
-    axios.put(`${BaseUrl}/updateForm/${id}`, { answer: answer }).then(res => {
-      if (res.status === 200) {
-        toast.success("Submit Successfully!")
-        setTimeout(() => {
-          navigate('/thanks');
-        }, 2000)
+  async function handleFormSubmit(title: string) {
+      
+    const postForm = {
+      name,
+      title,
+      answer
+    };
+    console.log(postForm);
+
+      try {
+         const res = await axios.post(`${BaseUrl}/formAns`,postForm);
+         if(res.status===200){
+          toast.success('Response recorded successfully !!')
+          console.log(res.data);
+         }
+      } catch (error) {
+        console.log(error);
       }
-    })
   }
+ 
+  
+  
 
   return (
     <div className='image-video-container'>
@@ -81,6 +111,7 @@ const Form = () => {
         <p style={{ color: "green" }}>Please fill the form !!</p>
       </div>
       <div className='form-container'>
+        <input type="text" className='name' placeholder='Enter your name' onChange={(e)=>setName(e.target.value)} />
         {
           form?.map((ques: formType, i: number) => (
             id === ques.title ? (
@@ -96,11 +127,11 @@ const Form = () => {
                           {que.type === 'checkbox' &&
                             <div className="options">
                               <div className='opt1'>
-                                <input type='checkbox' onChange={(e) => handleAnswer({ e, index: j - 1, quef: e.target.checked ? que.question : '', ansf: e.target.checked ? que.options[0] : ''})} />
+                                <input type='checkbox' onChange={(e) => handleAnswer({ e, index: j-1, quef: que.question , ansf: que.options[0]})} />
                                 <label htmlFor="opt1">{que.options[0]}</label>
                               </div>
                               <div className='opt2'>
-                                <input type='checkbox' onChange={(e) => handleAnswer({ e, index: j , quef: e.target.checked ? que.question : '', ansf: e.target.checked ? que.options[1] : ''})} />
+                                <input type='checkbox' onChange={(e) => handleAnswer({ e, index: j-1 , quef: que.question , ansf: que.options[1] })} />
                                 <label htmlFor="opt2">{que.options[1]}</label>
                               </div>
                             </div>
@@ -128,7 +159,7 @@ const Form = () => {
                   </div>
                 ))}
                 <div className="submit-form-btn">
-                  <button onClick={() => handleFormSubmit(ques._id)}>SUBMIT</button>
+                  <button onClick={() => handleFormSubmit(ques.title)}>SUBMIT</button>
                 </div>
               </div>
             ) : ''

@@ -11,6 +11,13 @@
     overflow: auto;
 }
 
+.form-container .name{
+    width: 30%;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    margin-bottom: -2rem;
+}
+
 .form-container .form-ques{
     margin-bottom: 2rem;
 }

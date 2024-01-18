@@ -18,6 +18,16 @@
     font-size: large;
 }
 
+.vName{
+    width: 24%;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    position: absolute;
+    margin-top: 7rem;
+    margin-left: 38%;
+    background: bisque;
+}
+
 .img-section{
     height: 46%;
     display: flex;
