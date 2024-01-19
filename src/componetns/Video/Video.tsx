@@ -122,7 +122,7 @@ const Video = () => {
                 </div>
                 <div className='submit-video-btn'>
                   <div className='submit-btn'>
-                    <button onClick={() => handleVideoSubmit(video.title, video.videoUrl, video.videoType)}>Submit</button>
+                    { name? <button onClick={() => handleVideoSubmit(video.title, video.videoUrl, video.videoType)}>Submit</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
                   </div>
 
                 </div>

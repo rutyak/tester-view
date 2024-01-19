@@ -159,7 +159,7 @@ const Form = () => {
                   </div>
                 ))}
                 <div className="submit-form-btn">
-                  <button onClick={() => handleFormSubmit(ques.title)}>SUBMIT</button>
+                  { name? <button onClick={() => handleFormSubmit(ques.title)}>SUBMIT</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
                 </div>
               </div>
             ) : ''

@@ -94,7 +94,7 @@ const Image = () => {
                 }
                 </div>
               <div className='btn-images'>
-                  <button className='img-submit' onClick={()=>handleImgSubmit(img.title)}>Submit</button>
+                { name ? <button className='img-submit' onClick={()=>handleImgSubmit(img.title)}>Submit</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
               </div>
               </div>
             </div>
