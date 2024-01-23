@@ -1,4 +1,5 @@
 import './Image.css'
+import '../Video/Video.css'
 import Common from '../Common/Common'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -79,7 +80,7 @@ const Image = () => {
 
   return (
     <div className='image-video-container'>
-      <input type="text" placeholder='Enter your name' className='vName' onChange={(e)=>setName(e.target.value)}/>
+      <input type="text" placeholder='Enter your name' className='vName iName' onChange={(e)=>setName(e.target.value)}/>
       {
         image?.map((img: imageType, i: number) => {
           if (imageId === img.title) {
