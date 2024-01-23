@@ -61,7 +61,7 @@ const Tester = () => {
       <div className="title">
         <h3>Survey</h3>
       </div>
-      <div className="survey-container">
+      <div className="survey-container" data-testid='survey-container'>
         {
           video?.map((video: videoType, i: number)=>(
             video.stage === 'published'? (

@@ -117,7 +117,7 @@ const Form = () => {
       <div className="noti">
         <p style={{ color: "green" }}>Please fill the form !!</p>
       </div>
-      <div className='form-container'>
+      <div className='form-container' data-testid='form-container'>
         <input type="text" className='name' placeholder='Enter your name' onChange={(e)=>setName(e.target.value)} />
         {
           form?.map((ques: formType, i: number) => (

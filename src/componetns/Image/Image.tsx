@@ -78,7 +78,7 @@ const Image = () => {
   
 
   return (
-    <div className='image-video-container'>
+    <div className='image-video-container' data-testid='image-container'>
       <input type="text" placeholder='Enter your name' className='iName' onChange={(e)=>setName(e.target.value)}/>
       {
         image?.map((img: imageType, i: number) => {
