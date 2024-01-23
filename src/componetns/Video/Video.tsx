@@ -11,6 +11,7 @@ const Video = () => {
 
   const param = useParams();
   const videoId = param.videoId;
+  const id = param.id;
   const navigate = useNavigate();
   const [name, setName] = useState<String>('');
 
@@ -51,6 +52,9 @@ const Video = () => {
 
 
   async function handleVideoSubmit(title: string, videoUrl: string, videoType: string) {
+
+    //status updated
+    axios.put(`${BaseUrl}/updateVideo/${id}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
 
     const postVideo = {
       name,

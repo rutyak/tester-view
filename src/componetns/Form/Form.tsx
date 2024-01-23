@@ -13,7 +13,10 @@ const Form = () => {
 
   // let arrayAns = useRef<any>([]);
   const param = useParams();
-  const id = param.formId;
+  const formId = param.formId;
+  const id = param.id;
+  console.log("videoId: ",formId, id);
+
   const navigate = useNavigate();
 
   const [name, setName] = useState<string>('');
@@ -75,6 +78,7 @@ const Form = () => {
 
   useEffect(() => {
     axios.get(`${BaseUrl}/formData`).then(response => setForm(response.data.data))
+
   }, [])
   
   console.log("answer", answer);
@@ -82,6 +86,9 @@ const Form = () => {
 
 
   async function handleFormSubmit(title: string) {
+     
+    //status updated
+    axios.put(`${BaseUrl}/updateForm/${id}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
       
     const postForm = {
       name,
@@ -114,7 +121,7 @@ const Form = () => {
         <input type="text" className='name' placeholder='Enter your name' onChange={(e)=>setName(e.target.value)} />
         {
           form?.map((ques: formType, i: number) => (
-            id === ques.title ? (
+            formId === ques.title ? (
               <div key={i}>
                 {ques.questions?.map((que: questionType, j: number) => (
                   <div className="form-ques" key={j}>

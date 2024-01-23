@@ -10,6 +10,7 @@ const Image = () => {
 
   const param = useParams();
   const imageId = param.imageId;
+  const id = param.id;
   const navigate = useNavigate();
   const [name, setName] = useState<String>('');
   
@@ -53,6 +54,9 @@ const Image = () => {
   console.log("Answer: ",ans);
 
   async function handleImgSubmit(title: string) {
+
+    //status updated
+    axios.put(`${BaseUrl}/updateImage/${id}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
       
     const postImage = {
       name,
