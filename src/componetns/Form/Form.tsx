@@ -15,7 +15,7 @@ const Form = () => {
   const param = useParams();
   const formId = param.formId;
   const id = param.id;
-  console.log("videoId: ",formId, id);
+  console.log("formId&id: ",formId, id);
 
   const navigate = useNavigate();
 
@@ -166,7 +166,7 @@ const Form = () => {
                   </div>
                 ))}
                 <div className="submit-form-btn">
-                  { name? <button onClick={() => handleFormSubmit(ques.title)}>SUBMIT</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
+                  { name? <button onClick={() => handleFormSubmit(formId)}>SUBMIT</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
                 </div>
               </div>
             ) : ''

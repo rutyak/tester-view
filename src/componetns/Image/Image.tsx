@@ -1,5 +1,4 @@
 import './Image.css'
-import '../Video/Video.css'
 import Common from '../Common/Common'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -80,7 +79,7 @@ const Image = () => {
 
   return (
     <div className='image-video-container'>
-      <input type="text" placeholder='Enter your name' className='vName iName' onChange={(e)=>setName(e.target.value)}/>
+      <input type="text" placeholder='Enter your name' className='iName' onChange={(e)=>setName(e.target.value)}/>
       {
         image?.map((img: imageType, i: number) => {
           if (imageId === img.title) {
@@ -99,7 +98,7 @@ const Image = () => {
                 }
                 </div>
               <div className='btn-images'>
-                { name ? <button className='img-submit' onClick={()=>handleImgSubmit(img.title)}>Submit</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
+                { name ? <button className='img-submit' onClick={()=>handleImgSubmit(imageId)}>Submit</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
               </div>
               </div>
             </div>
