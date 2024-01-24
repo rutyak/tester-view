@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import {useEffect, useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 import './Tester.css' 
 import axios from 'axios'
 const BaseUrl = 'http://localhost:5000'
@@ -45,11 +45,21 @@ const Tester = () => {
 
   const navigate = useNavigate();
 
-  useEffect( ()=>{
-     axios.get(`${BaseUrl}/videoData`).then(response => setVideo(response.data.data))
-     axios.get(`${BaseUrl}/imageData`).then((response)=> setImage(response.data.data))
-     axios.get(`${BaseUrl}/formData`).then((response) => setForm(response.data.data))
-  },[])
+  useEffect(() => {
+    (async function fetch() {
+      try {
+        const video = await axios.get(`${BaseUrl}/videoData`);
+        console.log("viddeo: ", video.data.data)
+        setVideo(video.data.data);
+        const res1 = await axios.get(`${BaseUrl}/imageData`);
+        setImage(res1.data.data);
+        const res2 = await axios.get(`${BaseUrl}/formData`);
+        setForm(res2.data.data);
+      } catch (error) {
+          console.log(error)
+      }
+    })()
+  }, [])
 
   console.log("vInfo",video);
   console.log("iInfo",image);
