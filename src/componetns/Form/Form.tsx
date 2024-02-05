@@ -3,7 +3,7 @@ import './Form.css'
 import Common from '../Common/Common'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 const BaseUrl = 'http://localhost:5000'
 let i=0;
@@ -12,11 +12,8 @@ const Form = () => {
 
   // let arrayAns = useRef<any>([]);
   const param = useParams();
-  const formId = param.formId;
-  const id = param.id;
-  console.log("formId&id: ",formId, id);
-
- 
+  console.log(param, "param");
+  const formId =param.formid;
 
   const [name, setName] = useState<string>('');
 
@@ -73,27 +70,37 @@ const Form = () => {
     stage: string,
     questions: questionType[],
   }
-  const [form, setForm] = useState<formType[]>();
-
+  const [form, setForm] = useState<formType[]>([]);
+  const [r, sR] = useState(0);
   useEffect(() => {
     (async function fetch(){
       try {
         const res = await axios.get(`${BaseUrl}/formData`);
-        setForm(res.data.data)
+        console.log('dataFrom api: ',res.data.data);
+        if(Array.isArray(res?.data?.data)) {
+        console.log("renderCount in effect", renderCount);
+
+        setForm(res.data.data);
+
+        }
+
+        // sR(r => r+1);
       } catch (error) {
         console.log(error)
       }
     })()
 
-  }, [])
-  
-  console.log("formData", form);
+  }, []);
+
+  const renderCount = useRef(0);
+  renderCount.current = renderCount.current + 1;
+  console.log("renderCount", renderCount.current);
 
 
-  async function handleFormSubmit(title: string) {
+  async function handleFormSubmit(title: string, formId: any) {
      
     //status updated
-    axios.put(`${BaseUrl}/updateForm/${id}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
+    axios.put(`${BaseUrl}/updateForm/${formId}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
       
     const postForm = {
       name,
@@ -114,8 +121,8 @@ const Form = () => {
   }
  
   
-  
-
+  console.log(form, "form");
+console.log("formid", formId);
   return (
     <div className='image-video-container' data-testid='image-video-container'>
       <Common />
@@ -126,7 +133,7 @@ const Form = () => {
         <input type="text" className='name' placeholder='Enter your name' onChange={(e)=>setName(e.target.value)} />
         {
           form?.map((ques: formType, i: number) => (
-            formId === ques.title ? (
+            formId === ques._id ? (
               <div key={i} >
                 {ques.questions?.map((que: questionType, j: number) => (
                   <div className="form-ques" key={j}>
@@ -171,7 +178,7 @@ const Form = () => {
                   </div>
                 ))}
                 <div className="submit-form-btn">
-                  <button data-testid='form-submit'  onClick={() => handleFormSubmit(formId)}>SUBMIT</button><br />
+                  <button data-testid='form-submit'  onClick={() => handleFormSubmit(ques?.title, formId)}>SUBMIT</button><br />
                   <p style={{color: "Green"}}>Please add your name</p>
                 </div>
               </div>
@@ -181,6 +188,7 @@ const Form = () => {
         }
       </div>
 
+      {form.length == 0? <div>Render</div>: <div>Re render</div>}
     </div>
 
   )

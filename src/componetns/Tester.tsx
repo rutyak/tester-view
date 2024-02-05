@@ -101,7 +101,7 @@ const Tester = () => {
         {
           form?.map((form: formType, i: number)=>(
             form.stage === 'published'? (
-              <div className="survey-block" data-testid='survey-block-form' onClick={()=>navigate(`/form/${form.title}/${form._id}`)}>
+              <div className="survey-block" data-testid='survey-block-form' onClick={()=>navigate(`/form/${form._id}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#755fb7"}}>{form.type}</p>
