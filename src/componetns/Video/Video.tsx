@@ -37,10 +37,17 @@ const Video = () => {
   });
 
   useEffect(() => {
-    axios.get(`${BaseUrl}/videoData`).then(response => setVideo(response.data.data))
+    (async function fetch(){
+      try {
+        const res = await axios.get(`${BaseUrl}/videoData`);
+        setVideo(res.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    })()
+
   }, [])
 
-  console.log("videoData", video)
 
   function handleMetadataLoad(e: React.SyntheticEvent<HTMLVideoElement>) {
 
@@ -76,6 +83,8 @@ const Video = () => {
     }
   }
 
+  console.log('VideoApi: ',video);
+
   return (
     <div className='image-video-container'>
       <div>
@@ -88,11 +97,11 @@ const Video = () => {
       {
         video?.map((video: videoType, i: number) => {
           if (videoId === video.title) {
-            return <div className='video-container' key={i}>
+            return <div data-testid='video-container' className='video-container' key={i}>
 
               <div className="video-section">
                 <div className='video-part'>
-                  <video width="380px" height="220px" controls onLoadedMetadata={handleMetadataLoad}>
+                  <video data-testid='video-tag' width="380px" height="220px" controls onLoadedMetadata={handleMetadataLoad}>
                     <source src={video.videoUrl} type={`video/${video.videoType}`} />
                   </video>
                 </div>
@@ -126,9 +135,9 @@ const Video = () => {
                 </div>
                 <div className='submit-video-btn'>
                   <div className='submit-btn'>
-                    { name? <button onClick={() => handleVideoSubmit(videoId, video.videoUrl, video.videoType)}>Submit</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
+                    <button onClick={() => handleVideoSubmit(videoId, video.videoUrl, video.videoType)}>Submit</button>
+                    <p style={{color: "Green"}}>Please add your name</p>
                   </div>
-
                 </div>
               </div>
             </div>

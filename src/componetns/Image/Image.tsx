@@ -48,7 +48,14 @@ const Image = () => {
   const [image, setImage] = useState<imageType[]>();
 
   useEffect(() => {
-    axios.get(`${BaseUrl}/imageData`).then(response => setImage(response.data.data))
+    (async function fetch(){
+      try {
+        const res = await axios.get(`${BaseUrl}/imageData`);
+        setImage(res.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    })()
   }, [])
   console.log("ImageData: ",image);
   console.log("Answer: ",ans);
@@ -92,13 +99,14 @@ const Image = () => {
                 <div className='img-flex'>
                 { img.imageFile?.map((img: string, i: number)=>(
                     <div className='images'>
-                    <img src={img} alt="img" className={ans.img1 === img|| ans.img2 === img ? 'select': ''} onClick={()=>handleImg(img)}/>
+                    <img src={img} data-testid="image-tag" alt="img" className={ans.img1 === img|| ans.img2 === img ? 'select': ''} onClick={()=>handleImg(img)}/>
                     </div>
                 ))
                 }
                 </div>
               <div className='btn-images'>
-                { name ? <button className='img-submit' onClick={()=>handleImgSubmit(imageId)}>Submit</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
+                <button className='img-submit' onClick={()=>handleImgSubmit(imageId)}>Submit</button>
+                <p style={{color: "Green"}}>Please add your name</p>
               </div>
               </div>
             </div>

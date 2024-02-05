@@ -3,9 +3,8 @@ import './Form.css'
 import Common from '../Common/Common'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { set } from 'mongoose'
 const BaseUrl = 'http://localhost:5000'
 let i=0;
 
@@ -17,7 +16,7 @@ const Form = () => {
   const id = param.id;
   console.log("formId&id: ",formId, id);
 
-  const navigate = useNavigate();
+ 
 
   const [name, setName] = useState<string>('');
 
@@ -77,11 +76,17 @@ const Form = () => {
   const [form, setForm] = useState<formType[]>();
 
   useEffect(() => {
-    axios.get(`${BaseUrl}/formData`).then(response => setForm(response.data.data))
+    (async function fetch(){
+      try {
+        const res = await axios.get(`${BaseUrl}/formData`);
+        setForm(res.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    })()
 
   }, [])
   
-  console.log("answer", answer);
   console.log("formData", form);
 
 
@@ -112,7 +117,7 @@ const Form = () => {
   
 
   return (
-    <div className='image-video-container'>
+    <div className='image-video-container' data-testid='image-video-container'>
       <Common />
       <div className="noti">
         <p style={{ color: "green" }}>Please fill the form !!</p>
@@ -122,7 +127,7 @@ const Form = () => {
         {
           form?.map((ques: formType, i: number) => (
             formId === ques.title ? (
-              <div key={i}>
+              <div key={i} >
                 {ques.questions?.map((que: questionType, j: number) => (
                   <div className="form-ques" key={j}>
                     {j > 0 &&
@@ -134,11 +139,11 @@ const Form = () => {
                           {que.type === 'checkbox' &&
                             <div className="options">
                               <div className='opt1'>
-                                <input type='checkbox' onChange={(e) => handleAnswer({ e, index: j-1, quef: que.question , ansf: que.options[0]})} />
+                                <input type='checkbox' data-testid={`checkbox-opt-${j}`} onChange={(e) => handleAnswer({ e, index: j-1, quef: que.question , ansf: que.options[0]})} />
                                 <label htmlFor="opt1">{que.options[0]}</label>
                               </div>
                               <div className='opt2'>
-                                <input type='checkbox' onChange={(e) => handleAnswer({ e, index: j-1 , quef: que.question , ansf: que.options[1] })} />
+                                <input type='checkbox' data-testid={`checkbox-opt-${j}`} onChange={(e) => handleAnswer({ e, index: j-1 , quef: que.question , ansf: que.options[1] })} />
                                 <label htmlFor="opt2">{que.options[1]}</label>
                               </div>
                             </div>
@@ -146,11 +151,11 @@ const Form = () => {
                           {que.type === 'radio' &&
                             <div className="options">
                               <div className='opt1'>
-                                <input type='radio' name='radio' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: que.options[0] })} />
+                                <input type='radio' data-testid={`radio-opt-${j}`} name='radio' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: que.options[0] })} />
                                 <label htmlFor="opt1">{que.options[0]}</label>
                               </div>
                               <div className='opt2'>
-                                <input type='radio' name='radio' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: que.options[1] })} />
+                                <input type='radio' data-testid={`radio-opt-${j}`} name='radio' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: que.options[1] })} />
                                 <label htmlFor="opt2">{que.options[1]}</label>
                               </div>
                             </div>
@@ -166,10 +171,11 @@ const Form = () => {
                   </div>
                 ))}
                 <div className="submit-form-btn">
-                  { name? <button onClick={() => handleFormSubmit(formId)}>SUBMIT</button>: <p style={{color: "red"}}>Please add YOUR NAME</p>}
+                  <button data-testid='form-submit'  onClick={() => handleFormSubmit(formId)}>SUBMIT</button><br />
+                  <p style={{color: "Green"}}>Please add your name</p>
                 </div>
               </div>
-            ) : ''
+            ) : null
           )
           )
         }

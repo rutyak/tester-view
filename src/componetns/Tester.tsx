@@ -49,7 +49,6 @@ const Tester = () => {
     (async function fetch() {
       try {
         const video = await axios.get(`${BaseUrl}/videoData`);
-        console.log("viddeo: ", video.data.data)
         setVideo(video.data.data);
         const res1 = await axios.get(`${BaseUrl}/imageData`);
         setImage(res1.data.data);
@@ -61,9 +60,6 @@ const Tester = () => {
     })()
   }, [])
 
-  console.log("vInfo",video);
-  console.log("iInfo",image);
-  console.log("fInfo",form);
 
   
   return (
@@ -75,7 +71,7 @@ const Tester = () => {
         {
           video?.map((video: videoType, i: number)=>(
             video.stage === 'published'? (
-              <div className="survey-block" onClick={()=>navigate(`/video/${video.title}/${video._id}`)}>
+              <div className="survey-block" data-testid='survey-block-video' onClick={()=>navigate(`/video/${video.title}/${video._id}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#d4b0b0"}}>{video.type}</p>
@@ -90,7 +86,7 @@ const Tester = () => {
         {
           image?.map((image: imageType, i: number)=>(
             image.stage === 'published'? (
-              <div className="survey-block" onClick={()=>navigate(`/image/${image.title}/${image._id}`)}>
+              <div className="survey-block" data-testid='survey-block-image' onClick={()=>navigate(`/image/${image.title}/${image._id}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background: "#e55b5b"}}>{image.type}</p>
@@ -105,7 +101,7 @@ const Tester = () => {
         {
           form?.map((form: formType, i: number)=>(
             form.stage === 'published'? (
-              <div className="survey-block" onClick={()=>navigate(`/form/${form.title}/${form._id}`)}>
+              <div className="survey-block" data-testid='survey-block-form' onClick={()=>navigate(`/form/${form.title}/${form._id}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#755fb7"}}>{form.type}</p>
