@@ -67,17 +67,7 @@ const mockData = {
 
 axios.get = jest.fn().mockResolvedValue({ data: mockData });
 
-
-test.only('testing entire component', async () => {
-
-  // jest.mock('react-router-dom', () => ({
-  //   ...jest.requireActual('react-router-dom'),
-  //   useParams: () => ({
-  //     formId: 'Malum hamko tumhe',
-  //     id: '',
-  //   }),
-  // }));
-
+test('testing entire component', async () => {
   const id = '65bc7b61204919eb7b8d4103';
   render(
     <MemoryRouter initialEntries={[`/form/${id}`]}>
@@ -91,6 +81,8 @@ test.only('testing entire component', async () => {
 
   await waitFor(() => {
     expect(screen.getByText(/Kaha na ptya hai/i)).toBeInTheDocument();
+    expect(screen.getByText(/sddfetgf/i)).toBeInTheDocument();
+    expect(screen.getByText(/dgdt/i)).toBeInTheDocument();
     expect(screen.getByText(/SUBMIT/i)).toBeInTheDocument();
   });
 

@@ -9,8 +9,9 @@ const BaseUrl = 'http://localhost:5000'
 const Image = () => {
 
   const param = useParams();
-  const imageId = param.imageId;
-  const id = param.id;
+  const imageId = param.imageid;
+  console.log('imageId: ',imageId);
+  
   const navigate = useNavigate();
   const [name, setName] = useState<String>('');
   
@@ -60,10 +61,10 @@ const Image = () => {
   console.log("ImageData: ",image);
   console.log("Answer: ",ans);
 
-  async function handleImgSubmit(title: string) {
+  async function handleImgSubmit(title: string, imageId:string) {
 
     //status updated
-    axios.put(`${BaseUrl}/updateImage/${id}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
+    axios.put(`${BaseUrl}/updateImage/${imageId}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
       
     const postImage = {
       name,
@@ -89,8 +90,8 @@ const Image = () => {
       <input type="text" placeholder='Enter your name' className='iName' onChange={(e)=>setName(e.target.value)}/>
       {
         image?.map((img: imageType, i: number) => {
-          if (imageId === img.title) {
-            return <div className='image-container' key={i}>
+          if (imageId === img._id) {
+            return <div className='image-container' key={i} data-testid='images'>
               <Common />
               <div className="noti">
                 <h2>Please select any two images !!</h2>
@@ -105,7 +106,7 @@ const Image = () => {
                 }
                 </div>
               <div className='btn-images'>
-                <button className='img-submit' onClick={()=>handleImgSubmit(imageId)}>Submit</button>
+                <button className='img-submit' onClick={()=>handleImgSubmit(img.title, imageId)}>Submit</button>
                 <p style={{color: "Green"}}>Please add your name</p>
               </div>
               </div>

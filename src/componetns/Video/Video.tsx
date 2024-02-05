@@ -10,8 +10,9 @@ const BaseUrl = 'http://localhost:5000'
 const Video = () => {
 
   const param = useParams();
-  const videoId = param.videoId;
-  const id = param.id;
+  const videoId = param.videoid;
+  console.log("videoId: ",videoId)
+
   const navigate = useNavigate();
   const [name, setName] = useState<String>('');
 
@@ -58,10 +59,10 @@ const Video = () => {
   console.log("ANs: ", ans)
 
 
-  async function handleVideoSubmit(title: string, videoUrl: string, videoType: string) {
+  async function handleVideoSubmit(title:string, videoUrl:string, videoType:string, videoId:string) {
 
     //status updated
-    axios.put(`${BaseUrl}/updateVideo/${id}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
+    axios.put(`${BaseUrl}/updateVideo/${videoId}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
 
     const postVideo = {
       name,
@@ -96,7 +97,7 @@ const Video = () => {
       <input type="text" placeholder='Enter your name' className='vName' onChange={(e) => setName(e.target.value)} />
       {
         video?.map((video: videoType, i: number) => {
-          if (videoId === video.title) {
+          if (videoId === video._id) {
             return <div data-testid='video-container' className='video-container' key={i}>
 
               <div className="video-section">
@@ -135,7 +136,7 @@ const Video = () => {
                 </div>
                 <div className='submit-video-btn'>
                   <div className='submit-btn'>
-                    <button onClick={() => handleVideoSubmit(videoId, video.videoUrl, video.videoType)}>Submit</button>
+                    <button onClick={() => handleVideoSubmit(video.title, video.videoUrl, video.videoType,videoId)}>Submit</button>
                     <p style={{color: "Green"}}>Please add your name</p>
                   </div>
                 </div>

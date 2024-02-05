@@ -13,8 +13,8 @@ function App() {
       <BrowserRouter>
          <Routes>
             <Route path='/' element={<Tester/>}/>
-            <Route path='/video/:videoId/:id' element={<Video/>}/>
-            <Route path='/image/:imageId/:id' element={<Image/>}/>
+            <Route path='/video/:videoid' element={<Video/>}/>
+            <Route path='/image/:imageid' element={<Image/>}/>
             <Route path='/form/:formid' element={<Form/>}/>
             <Route path='/thanks' element={<Thankyou/>}/>
          </Routes>

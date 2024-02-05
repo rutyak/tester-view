@@ -3,7 +3,7 @@ import './Form.css'
 import Common from '../Common/Common'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 const BaseUrl = 'http://localhost:5000'
 let i=0;
