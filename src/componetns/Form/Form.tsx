@@ -16,6 +16,7 @@ const Form = () => {
   const formId =param.formid;
 
   const [name, setName] = useState<string>('');
+  const [status, setStatus] = useState<boolean>(false)
 
   type ansType = {
     que: string,
@@ -99,8 +100,13 @@ const Form = () => {
 
   async function handleFormSubmit(title: string, formId: any) {
      
+    setStatus(true);
     //status updated
-    axios.put(`${BaseUrl}/updateForm/${formId}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
+    try {
+      axios.put(`${BaseUrl}/updateForm/${formId}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
+    } catch (error) {
+      console.log(error);
+    }
       
     const postForm = {
       name,
@@ -146,11 +152,11 @@ console.log("formid", formId);
                           {que.type === 'checkbox' &&
                             <div className="options">
                               <div className='opt1'>
-                                <input type='checkbox' data-testid={`checkbox-opt-${j}`} onChange={(e) => handleAnswer({ e, index: j-1, quef: que.question , ansf: que.options[0]})} />
+                                <input type='checkbox' id='opt1' data-testid={`checkbox-opt-${j}`} onChange={(e) => handleAnswer({ e, index: j-1, quef: que.question , ansf: que.options[0]})} />
                                 <label htmlFor="opt1">{que.options[0]}</label>
                               </div>
                               <div className='opt2'>
-                                <input type='checkbox' data-testid={`checkbox-opt-${j}`} onChange={(e) => handleAnswer({ e, index: j-1 , quef: que.question , ansf: que.options[1] })} />
+                                <input type='checkbox' id='opt2' data-testid={`checkbox-opt-${j}`} onChange={(e) => handleAnswer({ e, index: j-1 , quef: que.question , ansf: que.options[1] })} />
                                 <label htmlFor="opt2">{que.options[1]}</label>
                               </div>
                             </div>
@@ -158,18 +164,18 @@ console.log("formid", formId);
                           {que.type === 'radio' &&
                             <div className="options">
                               <div className='opt1'>
-                                <input type='radio' data-testid={`radio-opt-${j}`} name='radio' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: que.options[0] })} />
+                                <input type='radio' id='opt1' data-testid={`radio-opt-${j}`} name='radio' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: que.options[0] })} />
                                 <label htmlFor="opt1">{que.options[0]}</label>
                               </div>
                               <div className='opt2'>
-                                <input type='radio' data-testid={`radio-opt-${j}`} name='radio' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: que.options[1] })} />
+                                <input type='radio' id='opt2' data-testid={`radio-opt-${j}`} name='radio' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: que.options[1] })} />
                                 <label htmlFor="opt2">{que.options[1]}</label>
                               </div>
                             </div>
                           }
                           {que.type === 'single' &&
                             <div className="input-ans">
-                              <input type="text" placeholder='Add your answer' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: e.target.value })} />
+                              <input data-testid='input-answer' type="text" placeholder='Add your answer' onChange={(e) => handleAnswer({ e, index: j - 1, quef: que.question, ansf: e.target.value })} />
                             </div>
                           }
                         </div>
@@ -179,7 +185,7 @@ console.log("formid", formId);
                 ))}
                 <div className="submit-form-btn">
                   <button data-testid='form-submit'  onClick={() => handleFormSubmit(ques?.title, formId)}>SUBMIT</button><br />
-                  <p style={{color: "Green"}}>Please add your name</p>
+                  { status? <p style={{color: "Green", marginTop:'0.5rem',textAlign:'center'}}>Please wait...</p>:<p style={{color: "gray",marginTop:'0.5rem'}}>Please add your name</p>}
                 </div>
               </div>
             ) : null
@@ -188,7 +194,7 @@ console.log("formid", formId);
         }
       </div>
 
-      {form.length == 0? <div>Render</div>: <div>Re render</div>}
+      
     </div>
 
   )

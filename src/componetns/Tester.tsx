@@ -71,7 +71,7 @@ const Tester = () => {
         {
           video?.map((video: videoType, i: number)=>(
             video.stage === 'published'? (
-              <div className="survey-block" data-testid='survey-block-video' onClick={()=>navigate(`/video/${video._id}`)}>
+              <div className="survey-block" data-testid={`survey-block-video-${i}`} onClick={()=>navigate(`/video/${video._id}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#d4b0b0"}}>{video.type}</p>
@@ -86,7 +86,7 @@ const Tester = () => {
         {
           image?.map((image: imageType, i: number)=>(
             image.stage === 'published'? (
-              <div className="survey-block" data-testid='survey-block-image' onClick={()=>navigate(`/image/${image._id}`)}>
+              <div className="survey-block" data-testid={`survey-block-image-${i}`} onClick={()=>navigate(`/image/${image._id}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background: "#e55b5b"}}>{image.type}</p>
@@ -101,7 +101,7 @@ const Tester = () => {
         {
           form?.map((form: formType, i: number)=>(
             form.stage === 'published'? (
-              <div className="survey-block" data-testid='survey-block-form' onClick={()=>navigate(`/form/${form._id}`)}>
+              <div className="survey-block" data-testid={`survey-block-form-${i}`} onClick={()=>navigate(`/form/${form._id}`)}>
               <div className="type-tit-desc">
                 <div className="type">
                 <p style={{background:"#755fb7"}}>{form.type}</p>

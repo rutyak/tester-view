@@ -10,34 +10,35 @@ const Image = () => {
 
   const param = useParams();
   const imageId = param.imageid;
-  console.log('imageId: ',imageId);
-  
+  console.log('imageId: ', imageId);
+
   const navigate = useNavigate();
   const [name, setName] = useState<String>('');
-  
-  type imgType ={
+  const [status, setStatus] = useState<boolean>(false);
+
+  type imgType = {
     img1: string,
     img2: string
   }
   const [ans, setAns] = useState<imgType>({
-      img1: '',
-      img2: ''
+    img1: '',
+    img2: ''
   })
 
-  function handleImg(url: string){
+  function handleImg(url: string) {
 
-    
-      console.log("Image clicked")
-      setAns({
-        ...ans, 
-        img1: ans.img1 === ''? url: ans.img1,
-        img2: ans.img1 !== ''? url: ans.img2
-      })
-    
-   }
-  
 
-  type imageType={
+    console.log("Image clicked")
+    setAns({
+      ...ans,
+      img1: ans.img1 === '' ? url : ans.img1,
+      img2: ans.img1 !== '' ? url : ans.img2
+    })
+
+  }
+
+
+  type imageType = {
     desc: string,
     title: string,
     type: string,
@@ -49,7 +50,7 @@ const Image = () => {
   const [image, setImage] = useState<imageType[]>();
 
   useEffect(() => {
-    (async function fetch(){
+    (async function fetch() {
       try {
         const res = await axios.get(`${BaseUrl}/imageData`);
         setImage(res.data.data)
@@ -58,14 +59,18 @@ const Image = () => {
       }
     })()
   }, [])
-  console.log("ImageData: ",image);
-  console.log("Answer: ",ans);
+  console.log("ImageData: ", image);
+  console.log("Answer: ", ans);
 
-  async function handleImgSubmit(title: string, imageId:string) {
+  async function handleImgSubmit(title: string, imageId: string) {
 
+    setStatus(true);
     //status updated
-    axios.put(`${BaseUrl}/updateImage/${imageId}`,{status: "Answered"}).then(res => console.log("updatedRes: ",res))
-      
+    try {
+      axios.put(`${BaseUrl}/updateImage/${imageId}`, { status: "Answered" }).then(res => console.log("updatedRes: ", res))
+    } catch (error) {
+      console.log(error);
+    }
     const postImage = {
       name,
       title,
@@ -73,42 +78,43 @@ const Image = () => {
     };
     console.log(postImage);
 
-      try {
-         const res = await axios.post(`${BaseUrl}/imageAns`,postImage);
-         if(res.status===200){
-          toast.success('Response recorded successfully !!')
-          console.log(res.data);
-         }
-      } catch (error) {
-        console.log(error);
+    try {
+      const res = await axios.post(`${BaseUrl}/imageAns`, postImage);
+      if (res.status === 200) {
+        toast.success('Response recorded successfully !!')
+        console.log(res.data);
       }
+    } catch (error) {
+      console.log(error);
+    }
   }
-  
+
 
   return (
     <div className='image-video-container' data-testid='image-container'>
-      <input type="text" placeholder='Enter your name' className='iName' onChange={(e)=>setName(e.target.value)}/>
+      <Common />
+      <div className="noti">
+        <h2>Please select any two images !!</h2>
+      </div>
+      <input type="text" placeholder='Enter your name' className='iName' onChange={(e) => setName(e.target.value)} />
       {
         image?.map((img: imageType, i: number) => {
           if (imageId === img._id) {
             return <div className='image-container' key={i} data-testid='images'>
-              <Common />
-              <div className="noti">
-                <h2>Please select any two images !!</h2>
-              </div>
+
               <div className='img-section'>
                 <div className='img-flex'>
-                { img.imageFile?.map((img: string, i: number)=>(
+                  {img.imageFile?.map((img: string, i: number) => (
                     <div className='images'>
-                    <img src={img} data-testid="image-tag" alt="img" className={ans.img1 === img|| ans.img2 === img ? 'select': ''} onClick={()=>handleImg(img)}/>
+                      <img src={img} data-testid="image-tag" alt="img" className={ans.img1 === img || ans.img2 === img ? 'select' : ''} onClick={() => handleImg(img)} />
                     </div>
-                ))
-                }
+                  ))
+                  }
                 </div>
-              <div className='btn-images'>
-                <button className='img-submit' onClick={()=>handleImgSubmit(img.title, imageId)}>Submit</button>
-                <p style={{color: "Green"}}>Please add your name</p>
-              </div>
+                <div className='btn-images'>
+                  <button className='img-submit' data-testid='image-submit' onClick={() => handleImgSubmit(img.title, imageId)}>Submit</button>
+                  {status ? <p style={{ color: "green", marginTop: '0.5rem', textAlign: 'center' }}>Please wait...</p> : <p style={{ color: "Gray", marginTop: '0.5rem' }}>Please add your name</p>}
+                </div>
               </div>
             </div>
           }

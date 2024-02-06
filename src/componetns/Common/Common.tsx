@@ -7,7 +7,7 @@ const Common = () => {
   const navigate = useNavigate();
 
   return ( 
-    <div className='home' onClick={()=>navigate('/')}><img src={arrow} alt="arrow-icon"/><p>Home</p></div>
+    <div data-testid="home-btn" className='home' onClick={()=>navigate('/')}><img src={arrow} alt="arrow-icon"/><p>Home</p></div>
   )
 }
 
