@@ -1,46 +1,35 @@
-import {useEffect, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import './Tester.css' 
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './Tester.css'
 import axios from 'axios'
 const BaseUrl = 'http://localhost:5000'
 
 const Tester = () => {
   
-  type questionType ={
-    options: string[],
-    question: string,
-    type: string
+  type opt = {
+    id: number,
+    text: string
   }
 
-  type formType={
-    desc: string,
-    title: string,
+  type queType = {
+    id: number,
     type: string,
-    _id: string,
-    stage: string,
-    questions: questionType
+    questions: string,
+    options: opt[]
   }
 
-  type videoType={
-    desc: string,
+  type surveyType = {
     title: string,
-    type: string,
-    videoType: string,
-    videoUrl: string,
-    _id: string,
-    stage: string,
+    desc: string,
+    questions: queType[]
   }
 
-  type imageType={
-    desc: string,
-    title: string,
-    type: string,
-    imageFile: string[],
+  type formType = {
     _id: string,
-    stage: string,
+    type:string,
+    formsurvey: surveyType,
   }
-  const [video, setVideo] = useState<videoType[]>();
-  const [image, setImage] = useState<imageType[]>();
+  
   const [form, setForm] = useState<formType[]>();
 
   const navigate = useNavigate();
@@ -48,69 +37,33 @@ const Tester = () => {
   useEffect(() => {
     (async function fetch() {
       try {
-        const video = await axios.get(`${BaseUrl}/videoData`);
-        setVideo(video.data.data);
-        const res1 = await axios.get(`${BaseUrl}/imageData`);
-        setImage(res1.data.data);
-        const res2 = await axios.get(`${BaseUrl}/formData`);
-        setForm(res2.data.data);
+        const res = await axios.get(`${BaseUrl}/formData`);
+        console.log(res);
+        setForm(res.data.data);
       } catch (error) {
-          console.log(error)
+        console.log(error)
       }
     })()
   }, [])
 
 
-  
   return (
     <div className='tester-container'>
       <div className="title">
         <h3>Survey</h3>
       </div>
-      <div className="survey-container" data-testid='survey-container'>
+      <div className="survey-container">
         {
-          video?.map((video: videoType, i: number)=>(
-            video.stage === 'published'? (
-              <div className="survey-block" data-testid={`survey-block-video-${i}`} onClick={()=>navigate(`/video/${video._id}`)}>
+          form?.map((form: formType, i: number) => (
+            <div className="survey-block" onClick={() => navigate(`/form/${form._id}`)}>
               <div className="type-tit-desc">
                 <div className="type">
-                <p style={{background:"#d4b0b0"}}>{video.type}</p>
+                  <p style={{ background: "#755fb7" }}>{form.type}</p>
                 </div>
-                <p>Title: {video.title}</p>
-                <p>Description: {video.desc}</p>
+                <p>Title: {form.formsurvey.title}</p>
+                <p>Description: {form.formsurvey.desc}</p>
               </div>
             </div>
-            ): ''
-          ))
-        }
-        {
-          image?.map((image: imageType, i: number)=>(
-            image.stage === 'published'? (
-              <div className="survey-block" data-testid={`survey-block-image-${i}`} onClick={()=>navigate(`/image/${image._id}`)}>
-              <div className="type-tit-desc">
-                <div className="type">
-                <p style={{background: "#e55b5b"}}>{image.type}</p>
-                </div>
-                <p>Title: {image.title}</p>
-                <p>Description: {image.desc}</p>
-              </div>
-            </div>
-            ): ''
-          ))
-        }
-        {
-          form?.map((form: formType, i: number)=>(
-            form.stage === 'published'? (
-              <div className="survey-block" data-testid={`survey-block-form-${i}`} onClick={()=>navigate(`/form/${form._id}`)}>
-              <div className="type-tit-desc">
-                <div className="type">
-                <p style={{background:"#755fb7"}}>{form.type}</p>
-                </div>
-                <p>Title: {form.title}</p>
-                <p>Description: {form.desc}</p>
-              </div>
-            </div>
-            ): ''
           ))
         }
       </div>

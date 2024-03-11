@@ -1,6 +1,6 @@
-import arrow from '../../Asset/left-arrow (1).png'
+import arrow from '../../../Asset/left-arrow.png'
 import { useNavigate } from 'react-router-dom'
-import './Common.css'
+import './Back.css'
 
 const Common = () => {
 

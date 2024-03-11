@@ -1,14 +1,13 @@
 import './Thankyou.css'
-import thank from '../../Asset/360_F_505390776_8ilykzGiVSpIjUqdEXFhDY1ACRJZPDRD.jpg'
-import Common from './Common'
+import thank from '../../../Asset/Thankyou.jpg'
+import Back from '../Backbutton/Back'
 function Thankyou() {
   return (
     <div className='Thankyou'>
-      <Common/>
+      <Back/>
       <div className='thanks-contain'>
         <img className='thanks-img' src={thank} alt="thanks" />
       </div>
-      
     </div>
   )
 }

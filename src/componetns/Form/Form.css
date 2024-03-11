@@ -11,11 +11,13 @@
     overflow: auto;
 }
 
-.form-container .name{
+.form-container .name {
     width: 30%;
     padding: 0.5rem;
+    padding-left: 0.9rem;
     border-radius: 1rem;
     margin-bottom: -2rem;
+    color: black;
 }
 
 .form-container .form-ques{
@@ -29,10 +31,10 @@
     font-size: 1.2rem;
 }
 
-.que p{
-    margin-bottom: 1.5rem;
+.que p {
+    margin-bottom: 0.8rem;
     font-size: 1.7rem;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .input-ans input{
@@ -47,22 +49,31 @@
     text-align: center;
 }
 
-.submit-form-btn{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.submit-form-btn {
+    width: 15%;
+}
+
+.que input{
+    width: 46%;
+    height: 2rem;
+    border: 1px solud black;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding-left: 0.7rem;
+    padding-bottom: 0.3rem;
+    color: black;
+}
+
+.question-check-radio input{
+    margin-right: 0.4rem;
 }
 
 
-
-
-.submit-form-btn button{
-    height: 3rem;
+.submit-form-btn button {
+    height: 2.5rem;
     width: 12rem;
     border: 1px solid black;
-    border-radius: 1rem;
-    background: darkkhaki;
+    border-radius: 0.5rem;
 }
 
 @media screen and (max-width: 780px) {
