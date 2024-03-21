@@ -34,16 +34,18 @@ const Tester = () => {
 
   const navigate = useNavigate();
 
+  async function fetch() {
+    try {
+      const res = await axios.get(`${BaseUrl}/formData`);
+      console.log(res);
+      setForm(res.data.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
-    (async function fetch() {
-      try {
-        const res = await axios.get(`${BaseUrl}/formData`);
-        console.log(res);
-        setForm(res.data.data);
-      } catch (error) {
-        console.log(error)
-      }
-    })()
+    fetch()
   }, [])
 
 

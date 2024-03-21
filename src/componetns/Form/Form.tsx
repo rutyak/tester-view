@@ -26,25 +26,17 @@ const Form = () => {
 
     const updatedAnswers = [...answer];
 
-    if(e.target.type === 'checkbox'){
-      if(e.target.checked){
-        if(!updatedAnswers[index]){
-          updatedAnswers[index] = { que: quef, ans: [ansf]};
-        }
-        else{
-          updatedAnswers[index] = { que: quef, ans: [...updatedAnswers[index].ans, ansf]};
-        }
+    if (e.target.type === 'checkbox') {
+      if (e.target.checked) {
+        updatedAnswers[index] = { que: quef, ans: [...(updatedAnswers[index]?.ans || []), ansf] };
+      } else {
+        updatedAnswers[index] = { que: quef, ans: updatedAnswers[index]?.ans?.filter((unchecked:any)=> unchecked !== ansf) };
       }
-      else{
-        updatedAnswers[index] = { que: quef, ans: updatedAnswers[index].ans?.filter((unchecked: any)=> unchecked !== ansf)}
-      }
-    }
-    else{
+    } else {
       updatedAnswers[index] = { que: quef, ans: ansf };
     }
     setAnswer(updatedAnswers);
-  }
-
+  };
   type opt = {
     id: number,
     text: string
@@ -71,37 +63,37 @@ const Form = () => {
 
   const [form, setForm] = useState<formType[]>();
 
+  const fetchFormData = async () => {
+    try {
+      const res = await axios.get(`${BaseUrl}/formData`);
+      setForm(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    (async function fetch() {
-      try {
-        const res = await axios.get(`${BaseUrl}/formData`);
-        console.log(res);
-        setForm(res.data.data);
-      } catch (error) {
-        console.log(error)
-      }
-    })()
-  }, [])
+    fetchFormData();
+  }, []);
 
-  async function handleFormSubmit(title: string) {
-
+  const handleFormSubmit = async(title: string) => {
     const postForm = {
       name,
       title,
-      answer
+      answer,
     };
 
     try {
       const res = await axios.post(`${BaseUrl}/formAns`, postForm);
       if (res.status === 200) {
-        toast.success('Response recorded successfully !!')
-        navigate('/thanks')
+        toast.success('Response recorded successfully !!');
+        navigate('/thanks');
         console.log(res.data);
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className='image-video-container' data-testid='image-video-container'>
