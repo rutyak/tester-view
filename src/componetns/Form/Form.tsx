@@ -5,10 +5,13 @@ import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
 import { Button } from '@chakra-ui/react'
 import Back from '../Common/Backbutton/Back'
-const BaseUrl = 'http://localhost:5000'
+
 
 const Form = () => {
 
+  const BaseUrl = process.env.REACT_APP_API_KEY;
+  
+  console.log("base url", BaseUrl)
   const navigate = useNavigate()
   const param = useParams();
   const formId = param.formid || '';

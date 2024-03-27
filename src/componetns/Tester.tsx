@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Tester.css'
 import axios from 'axios'
-const BaseUrl = 'http://localhost:5000'
 
 const Tester = () => {
+
+  const BaseUrl = process.env.REACT_APP_API_KEY
   
   type opt = {
     id: number,
